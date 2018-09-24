@@ -1,9 +1,18 @@
-# (n squared) separate frames with borders implemented in Shadertoy, for n an integer > 0.
+# Polypane:  (n squared) separate frames with borders implemented in Shadertoy, for n an integer > 0.
 
-The original code for the animation I based on a great tutorial by Inigo Quilez:
- https://www.youtube.com/watch?v=0ifChJ0nJfM
+A template for multiple shaders in one, with borders.
 
-I then made a border and then experimented with multiple frames.
+## Purpose and functionality
+
+This shader is really a template for dividing the output coordinate system into n x n tiles, where n is an integer > 0, and running different code for each tile.
+
+The code near the top of mainImage() transforms the coordinate system so pixels in a given tile are mapped to their corresponding position in the whole window, so the shader can work with a regular coordinate system of [-0.5, -0.5[ to [0.5, 0.5[ but determine what cade to execute based on the tile index, which is obtained simply from the original fragCoord.xy.
+
+So you can either run the same code in different tiles, or the same code with different parameters, or different code entirely.
+
+##
+
+At the bottom of mainImage() is a short section which puts a black border around each tile, inset with a thin white line.   This code is independent of the tiling code.
 
 ## Author
 
