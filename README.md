@@ -14,6 +14,12 @@ So you can either run the same code in different tiles, or the same code with di
 
 At the bottom of mainImage() is a short section which puts a black border around each tile, inset with a thin white line.   This code is independent of the tiling code.
 
+## Execution
+
+Go to https://www.shadertoy.com/view/4tVcDK and run it fullscreen!
+Play with it by changing the values of variables like tileDim, freq, rmin, k, barkRoughness etc. in mainImage().
+toe is +/-1 depending on whether the tile index is odd or even, so you can multiply an effect by it to reverse it in some cases.
+
 ## Author
 
 John Lynch

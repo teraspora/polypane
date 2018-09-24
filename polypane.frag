@@ -41,7 +41,7 @@ vec2 rotate(vec2 v, float phi) {
 void mainImage( out vec4 fragColor, in vec2 fragCoord ) {    
     
     // Set this var to the number of tiles acroos and down:
-    float tileDim = 5.;
+    float tileDim = 7.;
     float numTiles = tileDim * tileDim;
     
     // some shorter names:
@@ -72,14 +72,18 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     vec2 q = pp / hr - 0.5;     // normalise
     // then scale:
     q /= scaleFactor;
-    // ===============================================================
     
+    // some rotation and translation for a bit of variation!
+    if (fract((numTiles + 37.) / tile) == 0.0) q = rotate(q, 0.5 * PI);
     q *= 1.0 + sin(iTime / 20.) * tile / numTiles * toe;    
-    q = rotate(q, iTime / 10. * toe);
+    q = rotate(q, iTime / 10. * sin(tile) * toe);
+    
     // control factors for changing colours
     float cmi = float((int(iTime / 640.)));
     int cm = int(mod(cmi + tile2 + 1., float(cl)));;
     int cn = int(mod(float(cm) + 1., float(cl)));
+    
+    // Initial colour set:
     vec3 col = mix(cols[cm], cols[cn], q.y);
     
     col.b = sin(mod(iTime  / 12., 1.0));
@@ -87,7 +91,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     float freq = 10. + float(int(sqrt(tile))) + 10. * sin(iTime / 100.);
     float rmin = 0.15;
     float rinc = 0.06;
-    float k = 0.25 + 0.1 * sin(iTime) * sin(tile); // 
+    float k = 0.25 + 0.1 * sin(iTime) * sin(tile);
+    
     // shift the tree:
     q.x += 0.2 * sin(iTime / 2.) * toe;
     q.x -= 0.2 * sin(iTime / 10.) * toe;
@@ -100,7 +105,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     q = rotate(q, phi * toe * 2.);    
       
     // make trunk wavy:
-    float trunkAngle = 0.2 * toe;
+    float trunkAngle = 0.2 * toe * cos(iTime / 10.);
     float trunkWaviness = tile;
     float barkRoughness = 0.002;
     float barkIndentation = 60.;
@@ -130,7 +135,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     col *= step(b, pp.x);
     col *= step(b, pp.y);
     col *= (1. - step(hr.x - b, pp.x));
-    col *= (1. - step(hr.y - b, pp.y));    
+    col *= (1. - step(hr.y - b, pp.y));
+    
+    
     
     // and finally return the colour:
     fragColor = vec4(col, 1.0);
